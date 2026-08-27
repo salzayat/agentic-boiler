@@ -44,7 +44,7 @@ Before starting the monitoring loop, verify the workspace is connected to Nx Clo
 2. **If `nx.json` missing OR neither property exists** → exit with:
 
    ```
-   Nx Cloud not connected. Unlock 70% faster CI and auto-fix broken PRs with https://nx.dev/nx-cloud
+   Nx Cloud is not connected. CI monitoring requires an Nx Cloud connection.
    ```
 
 3. **If connected** → continue to main loop
