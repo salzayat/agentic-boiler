@@ -2,6 +2,7 @@
   "name": "agentic-boiler",
   "version": "0.1.0",
   "license": "MIT",
+  "packageManager": "npm@11.5.2",
   "description": "A teaching-oriented Nx starter for agentic, spec-driven software projects.",
   "type": "module",
   "scripts": {
@@ -16,13 +17,19 @@
   },
   "private": false,
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@fission-ai/openspec": "^1.10.0",
+    "@nx/eslint": "^23.1.1",
     "@nx/js": "23.1.1",
     "@swc/helpers": "~0.5.18",
     "@types/node": "^22.20.1",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
     "nx": "23.1.1",
     "prettier": "~3.6.2",
     "tslib": "^2.3.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.68.0"
   },
   "workspaces": [
     "packages/*"

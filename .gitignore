@@ -8,6 +8,14 @@ out-tsc
 # dependencies
 node_modules
 
+# Local secrets and generated artifacts
+.env
+.env.*
+!.env.example
+coverage
+*.tsbuildinfo
+.nx
+
 # IDEs and editors
 /.idea
 .project

@@ -13,6 +13,7 @@ requirements, small composable projects, and reproducible checks.
 - Prefer Nx generators and targets over hand-written workspace wiring.
 - Keep application logic independent from report and presentation code.
 - Update documentation when commands, outputs, or workflows change.
+- Do not commit credentials, environment files, generated output, or dependency directories.
 
 ## Verification
 
@@ -29,7 +30,8 @@ npm run build
 The examples must remain runnable from a clean checkout with `npm ci`.
 
 The shared agent harness is canonical under `.agent/`. Keep `.opencode/`, `.claude/`, `.agents`, and
-`CLAUDE.md` as symlinks so command and skill changes are made once.
+`CLAUDE.md` as symlinks so command and skill changes are made once. Agent configuration is an adapter,
+not an authority grant: keep MCP access read-only or bounded to documented Nx operations.
 
 <!-- nx configuration start-->
 <!-- Leave the start & end comments to automatically receive updates. -->

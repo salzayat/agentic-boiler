@@ -11,6 +11,8 @@ requirements, deterministic examples, and repeatable quality gates.
 - Repository-level agent guidance in `AGENTS.md`
 - Separate formatting, type checking, linting, test, and build checks
 - CI that runs the same checks as local development
+- A shared agent harness with bounded, documented tooling access
+- Documentation freshness, secret scanning, roadmap drift, and OpenSpec lifecycle checks
 
 The repository contains no network-dependent example and requires no credentials.
 
@@ -21,7 +23,14 @@ npm ci
 npm run test
 ```
 
-Run the complete quality gate:
+Install the local hooks once per clone to run the gate before every commit:
+
+```bash
+./scripts/install-git-hooks.sh
+```
+
+Run the complete quality gate. It validates OpenSpec, harness links, roadmap status, documentation
+freshness, secrets, formatting, linting, types, tests, and builds:
 
 ```bash
 npm run format:check
@@ -37,8 +46,7 @@ Or run the same aggregate gate used by CI and the pre-commit hook:
 npm run check
 ```
 
-The initial workspace check covers only Nx quality targets; later governance PRs extend it with
-OpenSpec, harness, documentation, and secret checks.
+The aggregate check is the same command used by CI and the pre-commit hook.
 
 Useful Nx commands:
 
@@ -60,6 +68,27 @@ under `openspec/changes/<change-name>/` with:
 
 Keep behavioral contracts in specs, implementation structure in design documents, and progress in
 task lists. Update documentation when commands or outputs change.
+
+The normal lifecycle is:
+
+1. Read accepted specs and the current implementation.
+2. Draft and strictly validate an active change.
+3. Implement the smallest contract-covered slice.
+4. Run `npm run check` and record evidence in `tasks.md` and the pull request.
+5. Verify the change without changing it, then archive it only when every task is complete.
+
+The active `improve-agentic-boiler-governance` change is a worked example of this lifecycle.
+
+## Pull Requests
+
+Use the included template to identify the OpenSpec contract, exact verification commands, skipped checks,
+and generated-output impact. The guarded helper can create a branch, run checks, commit, push, and open a
+PR after GitHub CLI authentication:
+
+```bash
+./scripts/pr.sh --type chore --scope repo --message "describe the change" \
+  --branch chore/describe-change --all
+```
 
 ## Repository Map
 
