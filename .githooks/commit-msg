@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+message_file=$1
+subject=$(sed -n '1p' "$message_file")
+
+case "$subject" in
+  feat\(*\):\ *|fix\(*\):\ *|docs\(*\):\ *|test\(*\):\ *|refactor\(*\):\ *|chore\(*\):\ *|ci\(*\):\ *)
+    ;;
+  feat:\ *|fix:\ *|docs:\ *|test:\ *|refactor:\ *|chore:\ *|ci:\ *)
+    ;;
+  Merge\ *|Revert\ *)
+    exit 0
+    ;;
+  *)
+    printf '%s\n' "Commit message must use: type(scope): summary" >&2
+    printf '%s\n' "Allowed types: feat, fix, docs, test, refactor, chore, ci" >&2
+    exit 1
+    ;;
+esac
+
+if [ ${#subject} -gt 100 ]; then
+  printf '%s\n' "Commit subject should be 100 characters or fewer" >&2
+  exit 1
+fi
