@@ -37,6 +37,9 @@ Or run the same aggregate gate used by CI and the pre-commit hook:
 npm run check
 ```
 
+The initial workspace check covers only Nx quality targets; later governance PRs extend it with
+OpenSpec, harness, documentation, and secret checks.
+
 Useful Nx commands:
 
 ```bash
