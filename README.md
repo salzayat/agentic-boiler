@@ -69,6 +69,9 @@ they do not replace requirements.
 See [`plans/spec-driven-workflow.md`](plans/spec-driven-workflow.md) and
 [`docs/governance.md`](docs/governance.md) for the full workflow.
 
+For the detailed directory map, authority boundaries, agent loop, harness adapters, and MCP boundary, see
+[`docs/repository-orientation.md`](docs/repository-orientation.md).
+
 ## Repository Map
 
 | Path                | Responsibility                                         |

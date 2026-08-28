@@ -11,6 +11,9 @@ specific machinery unless it supports a documented teaching goal.
 3. Find or create the active OpenSpec change that governs the work.
 4. Inspect the current Nx project graph and related implementation.
 
+Use [`docs/repository-orientation.md`](docs/repository-orientation.md) when locating implementation,
+specification, governance, or agent integration files.
+
 Behavior changes require a change under `openspec/changes/`. Documentation and workflow changes must
 update the relevant docs in the same pull request. Keep requirements, architecture, tasks, and teaching
 prose in their respective documents; do not duplicate contracts across README and plans.
