@@ -12,6 +12,10 @@ pull request range. The check requires a related OpenSpec, README, `docs/`, `AGE
 The check prevents omission; reviewers still verify that the documentation is accurate, concise, and
 teaches the intended design rather than merely restating filenames.
 
+Dependabot version-only updates are the narrow exception. CI passes `CHECK_DEPENDABOT=true` for the
+Dependabot actor, allowing its documentation-presence failure to be skipped while every other quality gate
+still runs. Human-authored dependency or workflow changes must continue to include documentation.
+
 ## Review Checklist
 
 - Are commands copied exactly from runnable scripts or package targets?
