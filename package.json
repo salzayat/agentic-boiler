@@ -46,7 +46,7 @@
     "@nx/eslint": "^23.1.2",
     "@nx/js": "^23.1.2",
     "@swc/helpers": "~0.5.18",
-    "@types/node": "^22.20.1",
+    "@types/node": "^26.3.0",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
     "nx": "^23.1.2",
