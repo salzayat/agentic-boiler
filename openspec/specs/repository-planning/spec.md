@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change add-repository-evolution-markers. Update Purpose after archive.
+Define roadmap sequencing, OpenSpec dependency declarations, and the readiness evidence required before work
+can begin.
 
 ## Requirements
 

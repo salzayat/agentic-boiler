@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change fix-dependabot-docs-gate. Update Purpose after archive.
+Define how dependency-update automation participates in documentation and quality gates without weakening
+checks for human-authored changes.
 
 ## Requirements
 
