@@ -31,6 +31,9 @@ Install the local hooks once per clone:
 The `check` command runs strict OpenSpec validation, agent-harness and roadmap checks, documentation and
 secret checks, then Nx formatting, linting, type checking, tests, and builds.
 
+The development toolchain is kept current while respecting peer compatibility: TypeScript remains on the
+supported 6.x line until the TypeScript ESLint toolchain officially supports TypeScript 7.
+
 ## Nx Workflow
 
 ```bash
