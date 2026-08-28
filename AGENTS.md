@@ -64,6 +64,9 @@ workflow or integration path and record the result in the PR.
 `./scripts/check-harness.sh` after changing harness files. Restart the harness after changing project-local
 commands or skills.
 
+See [`docs/repository-orientation.md`](docs/repository-orientation.md) for the detailed repository map,
+agent loop, harness adapters, and MCP boundary.
+
 ## Pull Requests
 
 Use the repository PR template and `scripts/pr.sh` when explicitly asked to create a PR. Before doing so,
