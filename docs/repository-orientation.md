@@ -25,6 +25,7 @@ this page is guidance, not a replacement for those contracts.
 ├── CLAUDE.md             Symlink to `AGENTS.md`
 ├── docs/                 Durable policy and contributor explanations
 ├── plans/                Teaching workflow and roadmap, never requirements
+├── docs/dependency-patterns.md  Roadmap and OpenSpec dependency conventions
 ├── .github/              CI, issue templates, and pull-request guidance
 ├── nx.json               Workspace-level Nx configuration
 ├── package.json          Package manager scripts and workspace metadata
@@ -59,6 +60,9 @@ put domain behavior in scripts, reports, agent prompts, or presentation code.
 Use `npm exec nx show projects` and `npm exec nx show project <project> --json` to inspect the workspace.
 Use Nx targets such as `npm exec nx run hello:test`; do not invoke project tooling directly when an Nx target
 exists.
+
+Use [`docs/dependency-patterns.md`](dependency-patterns.md) when adding roadmap entries, declaring OpenSpec
+predecessors, or replacing a template example after a clone or fork.
 
 ## Agent Harness
 
