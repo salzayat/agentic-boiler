@@ -17,6 +17,7 @@ Options:
   --base BRANCH      PR base branch. Default: main
   --title TITLE      PR title. Default: commit subject
   --body BODY        PR body text. Default: generated template
+  --body-file PATH   Read PR body literally from a file
   --all             Stage all tracked and untracked changes
   --reuse-branch    Reuse an existing local branch instead of requiring a new one
   --skip-checks     Skip ./scripts/check.sh after staging. Use only for documented tool outages.
@@ -42,6 +43,8 @@ summary=
 pr_branch=
 pr_title=
 pr_body=
+body_inline=false
+body_file=
 paths=
 
 while [ "$#" -gt 0 ]; do
@@ -80,6 +83,12 @@ while [ "$#" -gt 0 ]; do
       shift
       [ "$#" -gt 0 ] || die "--body requires a value"
       pr_body=$1
+      body_inline=true
+      ;;
+    --body-file)
+      shift
+      [ "$#" -gt 0 ] || die "--body-file requires a value"
+      body_file=$1
       ;;
     --all)
       stage_all=true
@@ -131,11 +140,27 @@ if [ "$stage_all" = false ] && [ -z "$paths" ]; then
   die "Specify --all or pass file paths after --"
 fi
 
+if [ "$body_inline" = true ] && [ -n "$body_file" ]; then
+  die "Use either --body or --body-file, not both"
+fi
+
+if [ -n "$body_file" ]; then
+  case "$body_file" in
+    /*) ;;
+    *) body_file="$(pwd)/$body_file" ;;
+  esac
+fi
+
 command -v git >/dev/null 2>&1 || die "git is required"
 command -v gh >/dev/null 2>&1 || die "GitHub CLI 'gh' is required"
 
 repo_root=$(git rev-parse --show-toplevel)
 cd "$repo_root"
+
+if [ -n "$body_file" ]; then
+  [ -f "$body_file" ] || die "PR body file does not exist: $body_file"
+  [ -r "$body_file" ] || die "PR body file is not readable: $body_file"
+fi
 
 start_branch=$(git branch --show-current)
 [ -n "$start_branch" ] || die "Refusing to run from a detached HEAD"
@@ -238,6 +263,10 @@ EOF
 )"
 fi
 
-pr_url=$(gh pr create --base "$base_branch" --head "$pr_branch" --title "$pr_title" --body "$pr_body")
+if [ -n "$body_file" ]; then
+  pr_url=$(gh pr create --base "$base_branch" --head "$pr_branch" --title "$pr_title" --body-file "$body_file")
+else
+  pr_url=$(gh pr create --base "$base_branch" --head "$pr_branch" --title "$pr_title" --body "$pr_body")
+fi
 require_branch "$pr_branch"
 printf '%s\n' "$pr_url"

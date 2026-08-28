@@ -21,6 +21,8 @@ For changes in the same milestone, the leftmost governing change is selected fir
 
 Keep requirements and task checklists in the change. The roadmap records only sequence, links, status, and a
 short rationale when a dependency is non-obvious. Run `./scripts/check-plan-freshness.sh` after roadmap edits.
+Run `./scripts/check-dependencies.sh` to validate dependency declarations, readiness, ordering, and blocked
+statuses.
 
 ## OpenSpec Dependencies
 
