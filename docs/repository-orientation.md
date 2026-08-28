@@ -64,6 +64,9 @@ exists.
 Use [`docs/dependency-patterns.md`](dependency-patterns.md) when adding roadmap entries, declaring OpenSpec
 predecessors, or replacing a template example after a clone or fork.
 
+Use [`docs/agent-attribution.md`](agent-attribution.md) when writing repository reviews, reports, or
+documentation that must use neutral attribution.
+
 ## Agent Harness
 
 `.agent/commands/` and `.agent/skills/` are the only canonical locations. The following paths are discovery

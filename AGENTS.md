@@ -67,6 +67,18 @@ commands or skills.
 See [`docs/repository-orientation.md`](docs/repository-orientation.md) for the detailed repository map,
 agent loop, harness adapters, and MCP boundary.
 
+## Neutral Repository Attribution
+
+- Use neutral role labels such as `contributor`, `reviewer`, or `agent` in repository-produced content.
+- Do not add provider names, commercial identities, logos, marketing signatures, or generated-by watermarks
+  to new repository documentation, reports, reviews, or status records.
+- Preserve existing human-authored attribution, copyright, licensing, and historical review records.
+- Repository rules cannot remove branding injected by an external Claude UI, API gateway, or organization
+  platform; platform-level changes belong to the responsible administrator or product settings.
+- Use the `neutral-repository-attribution` skill when producing repository reviews, reports, or documentation.
+- Use the `agent-rule` skill and `/agent-rule` command when turning a repository request into a durable rule
+  in this file.
+
 ## Pull Requests
 
 Use the repository PR template and `scripts/pr.sh` when explicitly asked to create a PR. Before doing so,
