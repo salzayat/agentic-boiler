@@ -1,3 +1,4 @@
+// TEMPLATE:REPLACE this teaching example with the first domain capability after cloning or forking.
 export type Greeting = {
   message: string;
 };
