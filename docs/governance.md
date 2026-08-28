@@ -36,6 +36,8 @@ builds. Checks should fail explicitly when required tooling is unavailable.
 Examples must remain deterministic, local-only, and credential-free. Never commit environment files,
 secrets, dependency directories, caches, or generated artifacts. Agent and MCP access is bounded and does
 not imply permission to deploy, publish, mutate external systems, or run arbitrary network operations.
+Dependabot-only version updates may use the documented documentation-freshness exception; all other changes
+must update relevant documentation.
 
 ## Change And Review Standard
 
