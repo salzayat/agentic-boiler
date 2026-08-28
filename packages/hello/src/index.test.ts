@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { greet } from './index.ts';
 
+// TEMPLATE:REPLACE this fixture together with the example implementation.
 test('greets a named person', () => {
   assert.deepEqual(greet(' Ada '), { message: 'Hello, Ada!' });
 });
