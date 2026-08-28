@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change improve-repository-documentation. Update Purpose after archive.
+Define the documentation and agent guidance needed to explain repository intent, authority boundaries, and safe
+contribution workflows.
 
 ## Requirements
 
