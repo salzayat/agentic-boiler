@@ -5,6 +5,7 @@ npm exec openspec -- validate --all --strict
 ./scripts/check-harness.sh
 ./scripts/check-openspec-archive.sh
 ./scripts/check-plan-freshness.sh
+./scripts/check-dependencies.sh
 ./scripts/check-repository-conventions.sh
 ./scripts/check-agent-attribution.sh
 ./scripts/check-docs.sh
