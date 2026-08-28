@@ -3,8 +3,10 @@ description: /roadmap adds a concrete capability to the roadmap with an OpenSpec
 agent: build
 ---
 
-Add a proposed capability to `plans/roadmap.md`. This command is
-invoked exactly as `/roadmap`.
+Add a proposed capability to `plans/roadmap.md`. This command is invoked exactly as `/roadmap`.
+
+When no parameter is provided, use the immediately preceding user request as the capability description.
+Do not ask the user to restate that request. Explicit parameters override prior conversational context.
 
 User arguments:
 
@@ -16,8 +18,9 @@ Workflow:
 
 1. Read `plans/roadmap.md`, `docs/governance.md`, relevant accepted specs, and the
    active and archived OpenSpec changes.
-2. Require a concrete capability description, a proposed phase position, and known dependencies. Ask one
-   concise question before editing if any is ambiguous.
+2. Use the explicit user parameter when present; otherwise use the immediately preceding user request. Infer
+   the proposed phase position and known dependencies from that context and repository evidence. Ask one
+   concise question before editing only for details that remain genuinely ambiguous.
 3. Determine whether an existing unarchived OpenSpec change exactly covers the capability. Do not attach an
    unrelated change merely because it has a similar name.
 4. If no matching change exists, load the `openspec-change` skill. Ground, scaffold, and validate a new

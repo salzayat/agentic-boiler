@@ -72,6 +72,9 @@ See [`plans/spec-driven-workflow.md`](plans/spec-driven-workflow.md) and
 For the detailed directory map, authority boundaries, agent loop, harness adapters, and MCP boundary, see
 [`docs/repository-orientation.md`](docs/repository-orientation.md).
 
+Planning and dependency conventions are documented in
+[`docs/dependency-patterns.md`](docs/dependency-patterns.md).
+
 ## Repository Map
 
 | Path                | Responsibility                                         |
