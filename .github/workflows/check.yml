@@ -16,7 +16,7 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v4
@@ -32,5 +32,5 @@ jobs:
       - name: Run repository quality gate
         env:
           CHECK_DIFF_RANGE: ${{ format('{0}...{1}', github.event.pull_request.base.sha || github.event.before, github.sha) }}
-          CHECK_DEPENDABOT: ${{ github.actor == 'dependabot[bot]' }}
+          CHECK_DEPENDABOT: ${{ github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]' }}
         run: npm run check
