@@ -1,0 +1,55 @@
+#!/bin/sh
+set -eu
+
+diff_range=""
+files=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$files" ] && [ -n "${CHECK_DIFF_RANGE:-}" ]; then
+  diff_range="$CHECK_DIFF_RANGE"
+  files=$(git diff --name-only --diff-filter=ACMR "$diff_range")
+fi
+
+if [ -z "$files" ]; then
+  exit 0
+fi
+
+blocked_paths=""
+
+for file in $files; do
+  case "$file" in
+    .env|.env.*|*.tmp|*.tmp.*|runs/*|coverage/*|dist/*)
+      if [ "$file" != ".env.example" ]; then
+        blocked_paths="${blocked_paths}${file}
+"
+      fi
+      ;;
+  esac
+done
+
+if [ -n "$blocked_paths" ]; then
+  printf '%s\n' "Refusing to commit local secrets or transient artifacts:" >&2
+  printf '%s\n' "$blocked_paths" >&2
+  exit 1
+fi
+
+if command -v gitleaks >/dev/null 2>&1; then
+  if [ -n "$diff_range" ]; then
+    gitleaks detect --source . --no-banner --redact --log-opts="$diff_range"
+  else
+    gitleaks protect --staged --no-banner --redact
+  fi
+else
+  printf '%s\n' "gitleaks not found; falling back to a narrow secret pattern check. Install gitleaks for full coverage: https://github.com/gitleaks/gitleaks#installing" >&2
+
+  if [ -n "$diff_range" ]; then
+    secret_matches=$(git diff --text --name-only -G'(DATABENTO_API_KEY|API_KEY|SECRET|TOKEN|PASSWORD)\s*=\s*["'"''][^"'"'']{8,}' "$diff_range" -- $files)
+  else
+    secret_matches=$(git diff --cached --text --name-only -G'(DATABENTO_API_KEY|API_KEY|SECRET|TOKEN|PASSWORD)\s*=\s*["'"''][^"'"'']{8,}' -- $files)
+  fi
+
+  if [ -n "$secret_matches" ]; then
+    printf '%s\n' "Staged changes may contain a secret or long token. Review before committing." >&2
+    printf '%s\n' "$secret_matches" >&2
+    exit 1
+  fi
+fi

@@ -1,0 +1,243 @@
+#!/bin/sh
+set -eu
+
+usage() {
+  cat <<'EOF'
+Usage:
+  ./scripts/pr.sh --type TYPE --scope SCOPE --message SUMMARY --branch BRANCH [options] --all
+  ./scripts/pr.sh --type TYPE --scope SCOPE --message SUMMARY --branch BRANCH [options] -- path/to/file ...
+
+Required:
+  --type TYPE        Commit type: feat, fix, docs, test, refactor, chore, ci
+  --scope SCOPE      Commit scope, for example repo, databento, openspec
+  --message SUMMARY  Commit summary without the type/scope prefix
+  --branch BRANCH    PR branch to create or reuse
+
+Options:
+  --base BRANCH      PR base branch. Default: main
+  --title TITLE      PR title. Default: commit subject
+  --body BODY        PR body text. Default: generated template
+  --all             Stage all tracked and untracked changes
+  --reuse-branch    Reuse an existing local branch instead of requiring a new one
+  --skip-checks     Skip ./scripts/check.sh after staging. Use only for documented tool outages.
+  -h, --help        Show this help
+
+The script restores the branch that was current at startup after PR creation or failure.
+It stays on the PR branch until after `gh pr create` returns.
+EOF
+}
+
+die() {
+  printf '%s\n' "$1" >&2
+  exit 1
+}
+
+run_checks=true
+stage_all=false
+reuse_branch=false
+base_branch=main
+commit_type=
+scope=
+summary=
+pr_branch=
+pr_title=
+pr_body=
+paths=
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --type)
+      shift
+      [ "$#" -gt 0 ] || die "--type requires a value"
+      commit_type=$1
+      ;;
+    --scope)
+      shift
+      [ "$#" -gt 0 ] || die "--scope requires a value"
+      scope=$1
+      ;;
+    --message)
+      shift
+      [ "$#" -gt 0 ] || die "--message requires a value"
+      summary=$1
+      ;;
+    --branch)
+      shift
+      [ "$#" -gt 0 ] || die "--branch requires a value"
+      pr_branch=$1
+      ;;
+    --base)
+      shift
+      [ "$#" -gt 0 ] || die "--base requires a value"
+      base_branch=$1
+      ;;
+    --title)
+      shift
+      [ "$#" -gt 0 ] || die "--title requires a value"
+      pr_title=$1
+      ;;
+    --body)
+      shift
+      [ "$#" -gt 0 ] || die "--body requires a value"
+      pr_body=$1
+      ;;
+    --all)
+      stage_all=true
+      ;;
+    --reuse-branch)
+      reuse_branch=true
+      ;;
+    --skip-checks)
+      run_checks=false
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      while [ "$#" -gt 0 ]; do
+        paths="${paths}${1}
+"
+        shift
+      done
+      break
+      ;;
+    --*)
+      die "Unknown option: $1"
+      ;;
+    *)
+      paths="${paths}${1}
+"
+      ;;
+  esac
+  shift
+done
+
+case "$commit_type" in
+  feat|fix|docs|test|refactor|chore|ci) ;;
+  *) die "--type must be one of: feat, fix, docs, test, refactor, chore, ci" ;;
+esac
+
+[ -n "$scope" ] || die "--scope is required"
+[ -n "$summary" ] || die "--message is required"
+[ -n "$pr_branch" ] || die "--branch is required"
+
+if [ "$stage_all" = true ] && [ -n "$paths" ]; then
+  die "Use either --all or explicit paths, not both"
+fi
+
+if [ "$stage_all" = false ] && [ -z "$paths" ]; then
+  die "Specify --all or pass file paths after --"
+fi
+
+command -v git >/dev/null 2>&1 || die "git is required"
+command -v gh >/dev/null 2>&1 || die "GitHub CLI 'gh' is required"
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+start_branch=$(git branch --show-current)
+[ -n "$start_branch" ] || die "Refusing to run from a detached HEAD"
+
+restore_branch() {
+  current_branch=$(git branch --show-current || true)
+  if [ -n "$current_branch" ] && [ "$current_branch" != "$start_branch" ]; then
+    git switch "$start_branch" >/dev/null 2>&1 || true
+  fi
+}
+
+require_branch() {
+  expected_branch=$1
+  current_branch=$(git branch --show-current)
+  if [ "$current_branch" != "$expected_branch" ]; then
+    die "Expected to be on $expected_branch but found $current_branch"
+  fi
+}
+
+trap restore_branch EXIT INT TERM
+
+gh auth status >/dev/null 2>&1 || die "gh is not authenticated"
+
+if git show-ref --verify --quiet "refs/heads/$pr_branch"; then
+  [ "$reuse_branch" = true ] || die "Branch exists. Use --reuse-branch to continue on it."
+  git switch "$pr_branch"
+else
+  git switch -c "$pr_branch"
+fi
+
+if [ "$stage_all" = true ]; then
+  git add -A
+else
+  printf '%s' "$paths" | while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    git add -- "$path"
+  done
+fi
+
+if git diff --cached --quiet; then
+  die "No staged changes to commit"
+fi
+
+./scripts/check-secrets.sh
+
+if [ "$run_checks" = true ]; then
+  ./scripts/check.sh
+else
+  printf '%s\n' "Skipping checks by explicit request"
+fi
+
+subject="${commit_type}(${scope}): ${summary}"
+git commit -m "$subject"
+
+git push -u origin "$pr_branch"
+
+require_branch "$pr_branch"
+
+existing_pr_url=$(gh pr view "$pr_branch" --json url --jq '.url' 2>/dev/null || true)
+if [ -n "$existing_pr_url" ]; then
+  require_branch "$pr_branch"
+  printf '%s\n' "$existing_pr_url"
+  exit 0
+fi
+
+if [ -z "$pr_title" ]; then
+  pr_title=$subject
+fi
+
+if [ -z "$pr_body" ]; then
+  if [ "$run_checks" = true ]; then
+    verification_line="./scripts/check.sh (ran during this PR)"
+    skipped_line="None"
+  else
+    verification_line="./scripts/check.sh was skipped with --skip-checks"
+    skipped_line="./scripts/check.sh (--skip-checks passed; document why in this PR before merging)"
+  fi
+
+  pr_body="$(cat <<EOF
+## Summary
+
+- ${summary}
+
+## OpenSpec
+
+<!-- Which OpenSpec requirement or change under openspec/changes/ this supports. -->
+
+## Verification
+
+- ${verification_line}
+
+## Skipped checks
+
+- ${skipped_line}
+
+## Data / reports
+
+<!-- Note if this PR changes data, reports, or experiment outputs, and where. -->
+EOF
+)"
+fi
+
+pr_url=$(gh pr create --base "$base_branch" --head "$pr_branch" --title "$pr_title" --body "$pr_body")
+require_branch "$pr_branch"
+printf '%s\n' "$pr_url"
