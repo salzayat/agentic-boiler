@@ -1,33 +1,64 @@
 # Contributing
 
-## Development loop
+Agentic Boiler is a learning repository. Contributions should improve the foundation, demonstrate a
+repeatable practice, or make an existing boundary clearer. Avoid adding framework-specific or provider-
+specific machinery unless it supports a documented teaching goal.
 
-1. Start with a small OpenSpec change when behavior or workflow is changing.
-2. Implement the smallest change that satisfies the accepted scenarios.
-3. Implement the smallest contract-covered slice.
-4. Run the repository checks before opening a pull request.
-5. Update the relevant documentation and task checklist in the same change.
+## Before Editing
 
-Use `npm exec nx graph` to inspect project dependencies and `npm exec nx show projects` to list projects.
+1. Read `AGENTS.md`.
+2. Read the relevant accepted spec under `openspec/specs/`.
+3. Find or create the active OpenSpec change that governs the work.
+4. Inspect the current Nx project graph and related implementation.
 
-Install the repository Git hooks once per clone:
+Behavior changes require a change under `openspec/changes/`. Documentation and workflow changes must
+update the relevant docs in the same pull request. Keep requirements, architecture, tasks, and teaching
+prose in their respective documents; do not duplicate contracts across README and plans.
+
+## Local Setup
 
 ```bash
+npm ci
 ./scripts/install-git-hooks.sh
+npm run check
 ```
 
-Run the full repository gate before handoff:
+Useful Nx commands:
 
 ```bash
-./scripts/check.sh
+npm exec nx show projects
+npm exec nx graph
+npm exec nx run hello:test
 ```
 
-Commands live in `.agent/commands/` and skills live in `.agent/skills/`; `.opencode/` and `.claude/`
-symlink to those canonical directories. The `.agents` symlink supports tools that discover plural
-agent directories. Run `./scripts/check-harness.sh` to verify the topology.
+## Change Workflow
 
-## Pull requests
+1. Draft `proposal.md`, `design.md`, `tasks.md`, and the capability spec.
+2. Run `npm exec openspec -- validate <change> --strict`.
+3. Implement the smallest change that satisfies the scenarios.
+4. Run `npm run check` and any changed-path end-to-end command.
+5. Update docs and task evidence after implementation.
+6. Archive the change only when all tasks and verification are complete.
 
-Pull requests should explain the behavioral contract, verification commands, and any intentionally
-deferred work. Use the pull request template. Never commit credentials, generated dependency directories,
-or unexplained fixtures. Do not bypass hooks with `--no-verify`.
+## Commit And PR Rules
+
+Use small conventional commits: `type(scope): summary`. Do not commit credentials, `.env` files,
+dependency directories, caches, generated output, or unexplained fixtures. Do not bypass hooks with
+`--no-verify`.
+
+Every pull request should state:
+
+- What changed and why
+- Which OpenSpec requirement or change it supports
+- Exact verification commands and results
+- Skipped checks and reasons, or `None`
+- Whether data or generated output changed
+
+Use `.github/pull_request_template.md` and `./scripts/pr.sh` for guarded PR automation after explicit
+authorization.
+
+## Review Standard
+
+Review for behavioral correctness, clear boundaries, reproducibility, documentation freshness, and
+teaching value. A passing check proves only that the check passed; it does not replace design or code
+review.

@@ -1,7 +1,8 @@
 # Spec-Driven Workflow
 
 This file is a teaching guide, not a second requirements source. The accepted contract lives under
-`openspec/specs/`; proposed work lives under `openspec/changes/`.
+`openspec/specs/`; proposed work lives under `openspec/changes/`. The goal is to make decisions reviewable,
+implementation incremental, and verification reproducible.
 
 ## The Four Artifacts
 
@@ -14,10 +15,12 @@ This file is a teaching guide, not a second requirements source. The accepted co
 
 1. Read accepted specs and the current code before drafting.
 2. Create an active change and validate it strictly.
-3. Implement only the accepted contract and record evidence in tasks.
-4. Run focused tests and `npm run check`.
-5. Verify the change without changing task status.
-6. Archive only after every task and verification requirement is complete.
+3. Review the proposal and design before implementation.
+4. Implement only the accepted contract and record evidence in tasks.
+5. Run focused tests, the changed-path command, and `npm run check`.
+6. Make a final documentation pass after implementation.
+7. Verify the change without changing task status.
+8. Archive only after every task and verification requirement is complete.
 
-Try the agent commands through the shared harness: `/spec-audit`, `/verify-change`, and
-`/archive-change`.
+Try the agent commands through the shared harness: `/spec-audit`, `/verify-change`, and `/archive-change`.
+Use `/pr` only after explicit authorization to create a pull request.
