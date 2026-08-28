@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change add-neutral-agent-attribution. Update Purpose after archive.
+Define neutral attribution rules for repository-produced content while preserving external platform boundaries
+and existing human-authored records.
 
 ## Requirements
 

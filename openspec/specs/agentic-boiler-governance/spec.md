@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change improve-agentic-boiler-governance. Update Purpose after archive.
+Define the canonical agent harness layout, bounded tooling access, and restart and adapter rules for repository
+agents.
 
 ## Requirements
 
