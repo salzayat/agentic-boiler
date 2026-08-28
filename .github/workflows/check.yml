@@ -32,4 +32,5 @@ jobs:
       - name: Run repository quality gate
         env:
           CHECK_DIFF_RANGE: ${{ format('{0}...{1}', github.event.pull_request.base.sha || github.event.before, github.sha) }}
+          CHECK_DEPENDABOT: ${{ github.actor == 'dependabot[bot]' }}
         run: npm run check
