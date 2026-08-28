@@ -4,9 +4,6 @@ Agentic Boiler is a learning repository. Contributions should improve the founda
 repeatable practice, or make an existing boundary clearer. Avoid adding framework-specific or provider-
 specific machinery unless it supports a documented teaching goal.
 
-The default maintainer and code owner is documented in [`MAINTAINERS.md`](MAINTAINERS.md). Support questions
-and security reporting paths are documented in [`SUPPORT.md`](SUPPORT.md) and [`SECURITY.md`](SECURITY.md).
-
 ## Before Editing
 
 1. Read `AGENTS.md`.
@@ -16,6 +13,7 @@ and security reporting paths are documented in [`SUPPORT.md`](SUPPORT.md) and [`
 
 Use [`docs/repository-orientation.md`](docs/repository-orientation.md) when locating implementation,
 specification, governance, or agent integration files.
+Use [`docs/agent-attribution.md`](docs/agent-attribution.md) for neutral contributor and reviewer attribution.
 
 Behavior changes require a change under `openspec/changes/`. Documentation and workflow changes must
 update the relevant docs in the same pull request. Keep requirements, architecture, tasks, and teaching
