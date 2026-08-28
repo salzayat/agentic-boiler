@@ -8,6 +8,7 @@ contract.
 
 | Phase                            | Governing changes                   | Status   |
 | -------------------------------- | ----------------------------------- | -------- |
+| Repository evolution conventions | `add-repository-evolution-markers`  | Complete |
 | Foundation                       |                                     | Complete |
 | Agent harness and MCP governance | `improve-agentic-boiler-governance` | Complete |
 
