@@ -17,7 +17,7 @@ blocked_paths=""
 
 for file in $files; do
   case "$file" in
-    .env|.env.*|*.tmp|*.tmp.*|runs/*|coverage/*|dist/*)
+    .env|.env.*|*.tmp|*.tmp.*|runs/*|coverage/*|dist/*|.nx/*)
       if [ "$file" != ".env.example" ]; then
         blocked_paths="${blocked_paths}${file}
 "
