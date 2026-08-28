@@ -13,6 +13,7 @@ specific machinery unless it supports a documented teaching goal.
 
 Use [`docs/repository-orientation.md`](docs/repository-orientation.md) when locating implementation,
 specification, governance, or agent integration files.
+Use [`docs/agent-attribution.md`](docs/agent-attribution.md) for neutral contributor and reviewer attribution.
 
 Behavior changes require a change under `openspec/changes/`. Documentation and workflow changes must
 update the relevant docs in the same pull request. Keep requirements, architecture, tasks, and teaching
