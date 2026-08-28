@@ -4,9 +4,6 @@ Agentic Boiler is a learning repository. Contributions should improve the founda
 repeatable practice, or make an existing boundary clearer. Avoid adding framework-specific or provider-
 specific machinery unless it supports a documented teaching goal.
 
-The default maintainer and code owner is documented in [`MAINTAINERS.md`](MAINTAINERS.md). Support questions
-and security reporting paths are documented in [`SUPPORT.md`](SUPPORT.md) and [`SECURITY.md`](SECURITY.md).
-
 ## Before Editing
 
 1. Read `AGENTS.md`.

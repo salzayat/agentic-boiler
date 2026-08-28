@@ -3,27 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "packageManager": "npm@11.5.2",
-  "description": "A teaching-oriented Nx foundation for agentic, spec-driven software projects.",
-  "author": {
-    "name": "Shady Alzayat",
-    "url": "https://github.com/salzayat"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/salzayat/agentic-boiler.git"
-  },
-  "bugs": {
-    "url": "https://github.com/salzayat/agentic-boiler/issues"
-  },
-  "homepage": "https://github.com/salzayat/agentic-boiler#readme",
-  "keywords": [
-    "agents",
-    "monorepo",
-    "nx",
-    "openspec",
-    "typescript",
-    "developer-tools"
-  ],
+  "description": "A teaching-oriented Nx starter for agentic, spec-driven software projects.",
   "type": "module",
   "scripts": {
     "build": "nx run-many -t build",
@@ -35,21 +15,17 @@
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck"
   },
-  "private": true,
-  "engines": {
-    "node": ">=22",
-    "npm": ">=11"
-  },
+  "private": false,
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "@fission-ai/openspec": "^1.10.0",
-    "@nx/eslint": "^23.1.2",
-    "@nx/js": "^23.1.2",
+    "@nx/eslint": "^23.1.1",
+    "@nx/js": "23.1.1",
     "@swc/helpers": "~0.5.18",
     "@types/node": "^22.20.1",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
-    "nx": "^23.1.2",
+    "nx": "23.1.1",
     "prettier": "~3.6.2",
     "tslib": "^2.3.0",
     "typescript": "~6.0.3",
