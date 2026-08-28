@@ -2,7 +2,8 @@
 
 ## Purpose
 
-TBD - created by archiving change harden-public-repository-maintenance. Update Purpose after archive.
+Define the public repository metadata, ownership, support, security, and publication safeguards expected at the
+repository boundary.
 
 ## Requirements
 
