@@ -34,6 +34,9 @@ Keep provider credentials, personal filesystem paths, unrestricted shell servers
 servers out of repository configuration. The accepted governance spec under
 `openspec/specs/agentic-boiler-governance/` records the durable requirements.
 
+`opencode.json` is the OpenCode adapter configuration. Its `$schema` declaration enables editor validation;
+the configured Nx MCP server remains local and bounded by the repository governance policy.
+
 ## Teaching Rule
 
 When adding another harness, add a discovery adapter and document it here. Do not copy commands or skills.
