@@ -30,6 +30,11 @@ for file in $staged_files; do
 done
 
 if [ "$needs_docs" = true ] && [ "$has_docs" = false ]; then
+  if [ "${CHECK_DEPENDABOT:-false}" = true ]; then
+    printf '%s\n' "Documentation freshness check passed (Dependabot-only update)"
+    exit 0
+  fi
+
   cat >&2 <<'EOF'
 Staged implementation or workflow files changed without staged docs/specs.
 
