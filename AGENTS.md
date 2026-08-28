@@ -2,36 +2,73 @@
 
 ## Mission
 
-This repository is a teaching-oriented Nx boilerplate for building agentic software with explicit
-requirements, small composable projects, and reproducible checks.
+This is a public, teaching-oriented Nx foundation for future agentic software projects. Keep it small,
+deterministic, composable, and understandable. Prefer patterns that teach a team how to structure a repo
+over features that imitate a production system without a real use case.
 
-## Workflow
+## Authority And Workflow
 
-- Read the relevant `openspec/specs/` and active change under `openspec/changes/` before coding.
-- Put behavior in specs, architecture in `design.md`, and execution steps in `tasks.md`.
-- Keep examples deterministic and free of network calls or credentials.
-- Prefer Nx generators and targets over hand-written workspace wiring.
-- Keep application logic independent from report and presentation code.
-- Update documentation when commands, outputs, or workflows change.
-- Do not commit credentials, environment files, generated output, or dependency directories.
+- Read the relevant accepted specs under `openspec/specs/` and the matching active change before editing.
+- Treat accepted OpenSpec requirements and scenarios as the behavioral source of truth.
+- Put architecture and tradeoffs in `design.md`, execution steps in `tasks.md`, and teaching explanations
+  in `README.md`, `docs/`, or `plans/`.
+- If behavior is ambiguous, update the active OpenSpec artifacts before coding through the ambiguity.
+- Implement the smallest contract-covered slice; do not add speculative compatibility layers.
+- Update documentation in the same change when commands, outputs, workflows, configuration, or layout change.
+- Archive an OpenSpec change only after every task and verification requirement is complete.
+
+## Repository Design
+
+- Use Nx project boundaries and targets as the workspace's structural and execution model.
+- Put reusable application or domain logic in `packages/`; keep future apps in `apps/` thin and compositional.
+- Keep governance, specifications, and repository automation at the root boundary.
+- Keep examples deterministic, local-only, and free of credentials or required network access.
+- Keep application logic independent from reports, presentation, and agent tooling.
+
+## Safety Boundaries
+
+- Never commit credentials, tokens, private keys, `.env` files, dependency directories, caches, or generated output.
+- Do not add provider integrations, deployment authority, destructive commands, or external side effects
+  without an explicit reviewed OpenSpec change and user authorization.
+- Treat agent configuration as an adapter, not an authority grant. MCP access must remain read-only or
+  bounded to documented Nx operations.
+- Do not use plans, README prose, or agent suggestions as substitutes for accepted requirements.
+- Do not bypass hooks or checks with `--no-verify`, `--skip-checks`, or equivalent flags unless the user
+  explicitly authorizes a documented tooling outage.
+
+## Nx Conventions
+
+- For workspace exploration, use the `nx-workspace` skill and `npm exec nx show ...` commands.
+- For scaffolding or project structure changes, use the `nx-generate` skill first and prefer Nx generators.
+- Run project work through Nx targets: `npm exec nx run <project>:<target>` or `npm exec nx run-many -t ...`.
+- Use `nx_docs` for advanced or unfamiliar Nx configuration and flags; do not guess CLI options.
+- Preserve explicit `lint`, `typecheck`, `test`, and `build` targets for every project.
 
 ## Verification
 
-Before considering a change complete, run:
+Before considering work complete, run:
 
 ```bash
-npm run format:check
-npm run typecheck
-npm run lint
-npm run test
-npm run build
+npm run check
 ```
 
-The examples must remain runnable from a clean checkout with `npm ci`.
+This is the canonical local and CI gate. It includes strict OpenSpec validation, harness topology,
+OpenSpec archive completeness, roadmap freshness, documentation freshness, secret scanning, formatting,
+linting, type checking, tests, and builds. Also run an exact end-to-end command for every changed runnable
+workflow or integration path and record the result in the PR.
 
-The shared agent harness is canonical under `.agent/`. Keep `.opencode/`, `.claude/`, `.agents`, and
-`CLAUDE.md` as symlinks so command and skill changes are made once. Agent configuration is an adapter,
-not an authority grant: keep MCP access read-only or bounded to documented Nx operations.
+## Shared Agent Harness
+
+`.agent/commands/` and `.agent/skills/` are canonical. `.opencode/`, `.claude/`, `.agents`, and
+`CLAUDE.md` are discovery symlinks and must not contain copied divergent content. Run
+`./scripts/check-harness.sh` after changing harness files. Restart the harness after changing project-local
+commands or skills.
+
+## Pull Requests
+
+Use the repository PR template and `scripts/pr.sh` when explicitly asked to create a PR. Before doing so,
+inspect status, the complete diff, recent commits, remote tracking, OpenSpec tasks, and verification output.
+Do not commit directly to `main`, force-push, or include unrelated worktree changes.
 
 <!-- nx configuration start-->
 <!-- Leave the start & end comments to automatically receive updates. -->
@@ -44,15 +81,5 @@ not an authority grant: keep MCP access read-only or bounded to documented Nx op
 - You have access to the Nx MCP server and its tools, use them to help the user
 - For Nx plugin best practices, check `node_modules/@nx/<plugin>/PLUGIN.md`. Not all plugins have this file - proceed without it if unavailable.
 - NEVER guess CLI flags - always check nx_docs or `--help` first when unsure
-
-## Scaffolding & Generators
-
-- For scaffolding tasks (creating apps, libs, project structure, setup), ALWAYS invoke the `nx-generate` skill FIRST before exploring or calling MCP tools
-
-## When to use nx_docs
-
-- USE for: advanced config options, unfamiliar flags, migration guides, plugin configuration, edge cases
-- DON'T USE for: basic generator syntax (`nx g @nx/react:app`), standard commands, things you already know
-- The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->

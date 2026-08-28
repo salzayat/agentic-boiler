@@ -1,38 +1,50 @@
 # Repository Governance
 
-## Source Of Truth
+## Purpose
 
-Behavior belongs in OpenSpec. Architecture belongs in `design.md`. Execution steps and completion status
-belong in `tasks.md`. README and `docs/` explain the workflow but do not replace the contract.
+This repository is a reusable starting point and a worked lesson in engineering discipline. Governance is
+kept visible and executable so a future project can copy the structure without copying hidden assumptions.
 
-## Quality Gates
+## Sources Of Truth
 
-Nx owns project targets: `lint`, `typecheck`, `test`, and `build`. The root `scripts/check.sh` composes
-OpenSpec validation, harness topology, archive completeness, roadmap freshness, documentation freshness,
-secret scanning, and the Nx quality targets. CI invokes the same `npm run check` command after `npm ci`.
+- `openspec/specs/`: accepted behavioral contracts and scenarios
+- `openspec/changes/`: proposed deltas awaiting implementation and review
+- `design.md`: architecture and important tradeoffs for one change
+- `tasks.md`: ordered implementation and verification checklist for one change
+- `AGENTS.md`: instructions for agents operating in this repository
+- `CONTRIBUTING.md`: human contribution workflow
+- `README.md`, `docs/`, and `plans/`: explanation and teaching material, never replacement requirements
 
-## Public Repository Boundaries
+When these layers disagree, update the governing contract first. Do not resolve behavioral ambiguity by
+silently choosing an implementation.
 
-- Examples must be deterministic and must not require network access or credentials.
-- Never commit `.env` files, tokens, private keys, generated `dist/`, `.nx/`, coverage, or run artifacts.
-- A passing automated check is evidence of the check, not proof that an architectural decision is correct.
-- New behavior requires an OpenSpec change before implementation.
+## Architecture Boundaries
 
-## Review Checklist
+Nx is the task orchestrator and project graph. Libraries under `packages/` own reusable logic; future
+applications under `apps/` compose libraries and should not become the home for domain decisions. Root
+scripts provide repository-wide checks and automation. Agent configuration stays outside application code.
 
-- Does the implementation satisfy an accepted requirement and its scenarios?
-- Does architecture have a matching `design.md` decision?
-- Do changed commands, layouts, and outputs have current docs?
-- Does the PR record exact verification and skipped checks?
-- Are new dependencies lockfile-reproducible?
+The current `hello` library demonstrates typed behavior, tests, explicit targets, and build output without
+pretending to be a complete application.
 
-## Harness Boundary
+## Quality And Safety
 
-`.agent/commands/` and `.agent/skills/` are canonical. `.opencode/`, `.claude/`, and `.agents` are
-discovery symlinks. Agent configuration may expose repository inspection and bounded Nx operations, but
-must not check in credentials or grant unrestricted external authority.
+`npm run check` is the canonical gate for local development and CI. It validates specs, harness links,
+archive status, roadmap references, documentation freshness, secrets, formatting, lint, types, tests, and
+builds. Checks should fail explicitly when required tooling is unavailable.
 
-## OpenSpec Lifecycle
+Examples must remain deterministic, local-only, and credential-free. Never commit environment files,
+secrets, dependency directories, caches, or generated artifacts. Agent and MCP access is bounded and does
+not imply permission to deploy, publish, mutate external systems, or run arbitrary network operations.
 
-Run `npm exec openspec -- validate <change> --strict` while drafting. Complete every task and record
-verification before archiving. The archive check prevents accepted specs from lagging behind completed work.
+## Change And Review Standard
+
+Every behavior or workflow change needs a governing OpenSpec change or a documented rationale appropriate
+to a documentation-only edit. Reviewers should ask whether the code, design, tasks, docs, and verification
+agree. Pull requests must identify exact commands, skipped checks, and generated-output impact.
+
+## Documentation Freshness
+
+`./scripts/check-docs.sh` compares staged files locally or the `CHECK_DIFF_RANGE` in CI. Changes to code,
+scripts, hooks, CI, dependencies, Nx configuration, project layout, or commands should update the relevant
+README, docs, agent guidance, or OpenSpec in the same change.

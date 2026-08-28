@@ -1,6 +1,8 @@
 # Agent Harness Map
 
-The repository keeps agent instructions portable by separating canonical content from discovery paths.
+The repository keeps agent instructions portable by separating canonical content from discovery paths. This
+is an adapter pattern: integrations discover the same project guidance, but none becomes the source of
+truth for application behavior.
 
 ```text
 AGENTS.md                         repository rules
@@ -23,13 +25,16 @@ plans/                            teaching roadmap and workflow guides
 
 ## MCP Boundary
 
-MCP configuration belongs in the agent/editor adapter layer, not in application packages. When Nx
-configures agents, inspect the generated files and keep only repository-local, read-only capabilities:
+MCP configuration belongs in the agent/editor adapter layer, not in application packages. Keep capabilities
+limited to repository-local, read-only inspection, Nx project graph and target discovery, and bounded Nx
+task execution. Agent configuration does not grant permission to deploy, publish, mutate external systems,
+or run arbitrary network operations.
 
-- workspace file inspection
-- Nx project graph and target discovery
-- bounded Nx task execution
+Keep provider credentials, personal filesystem paths, unrestricted shell servers, and arbitrary network
+servers out of repository configuration. The accepted governance spec under
+`openspec/specs/agentic-boiler-governance/` records the durable requirements.
 
-Do not commit API keys, personal filesystem paths, unrestricted shell servers, or arbitrary network
-servers. The active governance change `improve-agentic-boiler-governance` tracks the concrete setup and
-verification work.
+## Teaching Rule
+
+When adding another harness, add a discovery adapter and document it here. Do not copy commands or skills.
+Run `./scripts/check-harness.sh` to verify the topology.

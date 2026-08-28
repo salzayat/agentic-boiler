@@ -1,105 +1,90 @@
 # Agentic Boiler
 
-An intentionally small Nx workspace for learning how to build agentic software with explicit
-requirements, deterministic examples, and repeatable quality gates.
+Agentic Boiler is a public, teaching-oriented Nx foundation for building agentic software with explicit
+requirements, small composable projects, and repeatable engineering checks. It is intentionally small:
+the `hello` library is a deterministic example, not a pretend production application.
 
-## What This Demonstrates
+## Design Intent
 
-- Nx integrated workspace structure and project targets
-- A typed, tested example under `packages/hello`
-- OpenSpec requirements under `openspec/specs/`
-- Repository-level agent guidance in `AGENTS.md`
-- Separate formatting, type checking, linting, test, and build checks
-- CI that runs the same checks as local development
-- A shared agent harness with bounded, documented tooling access
-- Documentation freshness, secret scanning, roadmap drift, and OpenSpec lifecycle checks
+The repository helps a team move from idea to a reviewable implementation without losing the reasoning:
 
-The repository contains no network-dependent example and requires no credentials.
+- **Contracts first:** behavior is described in accepted OpenSpec requirements and scenarios.
+- **Bounded architecture:** Nx projects provide clear ownership and dependency boundaries.
+- **Evidence over ceremony:** every change has executable tasks and recorded verification.
+- **Safe automation:** agents can inspect and run bounded repository tasks, but do not receive credentials
+  or implicit authority to publish, deploy, or act externally.
+- **Portable foundations:** examples avoid provider lock-in, network calls, and secrets.
 
 ## Quick Start
 
 ```bash
 npm ci
-npm run test
+npm run check
 ```
 
-Install the local hooks once per clone to run the gate before every commit:
+Install the local hooks once per clone:
 
 ```bash
 ./scripts/install-git-hooks.sh
 ```
 
-Run the complete quality gate. It validates OpenSpec, harness links, roadmap status, documentation
-freshness, secrets, formatting, linting, types, tests, and builds:
+The `check` command runs strict OpenSpec validation, agent-harness and roadmap checks, documentation and
+secret checks, then Nx formatting, linting, type checking, tests, and builds.
+
+## Nx Workflow
 
 ```bash
-npm run format:check
-npm run typecheck
-npm run lint
-npm run test
-npm run build
+npm exec nx show projects
+npm exec nx graph
+npm exec nx run hello:test
 ```
 
-Or run the same aggregate gate used by CI and the pre-commit hook:
+Project targets are intentionally explicit:
 
-```bash
-npm run check
-```
+| Target      | Purpose                                       |
+| ----------- | --------------------------------------------- |
+| `lint`      | Static code-quality checks                    |
+| `typecheck` | TypeScript validation without emitting output |
+| `test`      | Deterministic project tests                   |
+| `build`     | Compile and package project output            |
 
-The aggregate check is the same command used by CI and the pre-commit hook.
-
-Useful Nx commands:
-
-```bash
-npx nx show projects
-npx nx graph
-npx nx run hello:test
-```
+Use Nx targets rather than invoking project tooling directly. As the workspace grows, applications should
+compose reusable libraries rather than placing domain logic in presentation projects.
 
 ## Spec-Driven Workflow
 
-Read the relevant accepted spec before changing behavior. For a new capability, create a change
-under `openspec/changes/<change-name>/` with:
+OpenSpec is the behavioral source of truth. The normal lifecycle is:
 
-- `proposal.md`: why the change is needed and its scope
-- `design.md`: implementation architecture and important decisions
-- `tasks.md`: ordered, verifiable execution steps
-- `specs/<capability>/spec.md`: requirements and scenarios
+1. Read the relevant accepted specs and current implementation.
+2. Create and strictly validate `openspec/changes/<name>/`.
+3. Record architecture in `design.md` and ordered work in `tasks.md`.
+4. Implement only the contract-covered behavior.
+5. Run `npm run check` and record exact evidence.
+6. Verify and archive the change after every task is complete.
 
-Keep behavioral contracts in specs, implementation structure in design documents, and progress in
-task lists. Update documentation when commands or outputs change.
+The four change artifacts have distinct jobs: `proposal.md` explains why, `design.md` explains how,
+`tasks.md` explains execution, and `specs/<capability>/spec.md` defines behavior. Plans teach sequencing;
+they do not replace requirements.
 
-The normal lifecycle is:
-
-1. Read accepted specs and the current implementation.
-2. Draft and strictly validate an active change.
-3. Implement the smallest contract-covered slice.
-4. Run `npm run check` and record evidence in `tasks.md` and the pull request.
-5. Verify the change without changing it, then archive it only when every task is complete.
-
-The active `improve-agentic-boiler-governance` change is a worked example of this lifecycle.
-
-## Pull Requests
-
-Use the included template to identify the OpenSpec contract, exact verification commands, skipped checks,
-and generated-output impact. The guarded helper can create a branch, run checks, commit, push, and open a
-PR after GitHub CLI authentication:
-
-```bash
-./scripts/pr.sh --type chore --scope repo --message "describe the change" \
-  --branch chore/describe-change --all
-```
+See [`plans/spec-driven-workflow.md`](plans/spec-driven-workflow.md) and
+[`docs/governance.md`](docs/governance.md) for the full workflow.
 
 ## Repository Map
 
-| Path                 | Purpose                                     |
-| -------------------- | ------------------------------------------- |
-| `packages/`          | Nx libraries and reusable application logic |
-| `openspec/specs/`    | Accepted behavioral contracts               |
-| `openspec/changes/`  | Proposed changes awaiting implementation    |
-| `docs/`              | Governance and contributor guidance         |
-| `.github/workflows/` | Automated quality gates                     |
+| Path                | Responsibility                                         |
+| ------------------- | ------------------------------------------------------ |
+| `apps/`             | Future deployable applications                         |
+| `packages/`         | Reusable libraries and domain logic; currently `hello` |
+| `openspec/specs/`   | Accepted behavioral contracts                          |
+| `openspec/changes/` | Proposed, not-yet-archived changes                     |
+| `scripts/`          | Repository checks, hooks, and PR automation            |
+| `.agent/`           | Canonical agent commands and skills                    |
+| `docs/`             | Durable policy and contributor explanations            |
+| `plans/`            | Teaching sequence and roadmap, not requirements        |
+| `.github/`          | CI, issue templates, and pull-request guidance         |
 
-## License
+## Contributing
 
-MIT
+Read [`AGENTS.md`](AGENTS.md), the relevant accepted spec, and [`CONTRIBUTING.md`](CONTRIBUTING.md)
+before making a change. Pull requests should explain the contract, verification, skipped checks, and any
+generated output. The repository is licensed under the [MIT License](LICENSE).

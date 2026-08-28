@@ -1,13 +1,21 @@
 # Documentation Freshness
 
 Documentation and specs are part of implementation. A change is incomplete when behavior, commands,
-configuration, or project layout has changed but repository guidance is stale.
+configuration, project layout, or workflow changes but repository guidance is stale.
 
-The `scripts/check-docs.sh` gate requires implementation and workflow changes to include a related
-OpenSpec, README, governance, or agent-guidance update. It prevents omission; reviewers still verify
-that the documentation is accurate.
+## Automated Check
 
-The check compares staged files locally, or a `CHECK_DIFF_RANGE` in CI. This makes documentation review
-diff-aware while keeping ordinary working-tree checks fast. Changes to code, scripts, hooks, CI,
-dependencies, Nx configuration, or project layout should update user-facing docs or the governing OpenSpec
-change in the same pull request.
+`./scripts/check-docs.sh` compares staged files locally. In CI, set `CHECK_DIFF_RANGE` to compare the
+pull request range. The check requires a related OpenSpec, README, `docs/`, `AGENTS.md`, or
+`CONTRIBUTING.md` update when implementation or workflow files change.
+
+The check prevents omission; reviewers still verify that the documentation is accurate, concise, and
+teaches the intended design rather than merely restating filenames.
+
+## Review Checklist
+
+- Are commands copied exactly from runnable scripts or package targets?
+- Do paths and project names exist in the current workspace?
+- Does the documentation identify the authoritative contract?
+- Does it explain changed limitations and safety boundaries?
+- Is duplicated guidance replaced with a link to its source of truth?
