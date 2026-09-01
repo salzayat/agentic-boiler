@@ -4,7 +4,8 @@ Agentic Boiler is a public, teaching-oriented Nx monorepo for exploring how agen
 with the discipline of a well-run engineering team. It demonstrates spec-driven development, harness
 governance, and loop engineering in a deliberately small workspace. The `hello` library is a deterministic
 example used to make the structure and feedback mechanisms visible; it is not a pretend production
-application.
+application. `greeter` depends on `hello` and is the worked example of a second, dependent package —
+project boundaries, sequencing, and inter-package resolution shown in working code, not just described.
 
 The project treats an agent as a governed contributor rather than an unconstrained operator. Accepted
 OpenSpec requirements define what the system should do, Nx projects define where implementation belongs,
@@ -65,6 +66,7 @@ The repository keeps its common engineering actions executable and visible:
 | `npm exec nx show projects`                    | Lists the projects known to the Nx workspace.                                                                              |
 | `npm exec nx graph`                            | Opens the workspace project and dependency graph.                                                                          |
 | `npm exec nx run hello:test`                   | Runs the deterministic test target for the example library.                                                                |
+| `npm exec nx run greeter:test`                 | Runs the test target for the second example library, which depends on `hello`.                                             |
 | `npm exec openspec -- validate --all --strict` | Strictly validates every accepted and active OpenSpec artifact.                                                            |
 | `./scripts/pr.sh`                              | Runs guarded checks, creates a commit, pushes a branch, and opens a pull request.                                          |
 
@@ -150,17 +152,17 @@ Planning and dependency conventions are documented in
 
 ## Repository Map
 
-| Path                | Responsibility                                         |
-| ------------------- | ------------------------------------------------------ |
-| `apps/`             | Future deployable applications                         |
-| `packages/`         | Reusable libraries and domain logic; currently `hello` |
-| `openspec/specs/`   | Accepted behavioral contracts                          |
-| `openspec/changes/` | Proposed, not-yet-archived changes                     |
-| `scripts/`          | Repository checks, hooks, and PR automation            |
-| `.agent/`           | Canonical agent commands and skills                    |
-| `docs/`             | Durable policy and contributor explanations            |
-| `plans/`            | Teaching sequence and roadmap, not requirements        |
-| `.github/`          | CI, issue templates, and pull-request guidance         |
+| Path                | Responsibility                                                                  |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `apps/`             | Future deployable applications                                                  |
+| `packages/`         | Reusable libraries and domain logic; `hello` and `greeter` (depends on `hello`) |
+| `openspec/specs/`   | Accepted behavioral contracts                                                   |
+| `openspec/changes/` | Proposed, not-yet-archived changes                                              |
+| `scripts/`          | Repository checks, hooks, and PR automation                                     |
+| `.agent/`           | Canonical agent commands and skills                                             |
+| `docs/`             | Durable policy and contributor explanations                                     |
+| `plans/`            | Teaching sequence and roadmap, not requirements                                 |
+| `.github/`          | CI, issue templates, and pull-request guidance                                  |
 
 ## Contributing
 
