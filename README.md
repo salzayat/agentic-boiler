@@ -1,44 +1,45 @@
 # Agentic Boiler
 
-Agentic Boiler is a public, teaching-oriented Nx monorepo for exploring how agentic software can be built
-with the discipline of a well-run engineering team. It demonstrates spec-driven development, harness
-governance, and loop engineering in a deliberately small workspace. The `hello` library is a deterministic
-example used to make the structure and feedback mechanisms visible; it is not a pretend production
-application. `greeter` depends on `hello` and is the worked example of a second, dependent package —
-project boundaries, sequencing, and inter-package resolution shown in working code, not just described.
+Agentic Boiler is a public, teaching-oriented Nx monorepo. It shows how to build agentic software with
+the same discipline a well-run engineering team already uses: specs before code, clear ownership boundaries,
+and evidence instead of trust. `hello` is a small deterministic library that makes the structure and feedback
+loop visible — it isn't a stand-in for a real product. `greeter` depends on `hello`, and exists to show a
+second package working: dependency resolution and sequencing in running code, not just in a diagram.
 
-The project treats an agent as a governed contributor rather than an unconstrained operator. Accepted
-OpenSpec requirements define what the system should do, Nx projects define where implementation belongs,
-repository rules define how work is performed, and automated checks provide evidence that the result is
-ready for review. The agent harness supplies reusable commands and skills, while its MCP boundary is kept
-read-only or bounded to documented workspace operations. Human authorization remains the boundary for
-publishing, deployment, credentials, and other external effects.
+Forking this to start your own project? Read [`TEMPLATE.md`](TEMPLATE.md) first.
 
-This is intended to mirror the modern software development lifecycle without discarding traditional
-engineering team management. A change moves through discovery, proposal, design, planning, implementation,
-verification, review, and archival. Dependencies, ownership boundaries, role-neutral review, explicit
-acceptance criteria, and recorded evidence provide the same coordination discipline that teams have long
-used with technical leads, reviewers, release gates, and change management. Agents can accelerate the loop,
-but they do not replace the contracts, accountability, or decisions that make the loop trustworthy.
+An agent here is a contributor, not an operator with free rein. Accepted OpenSpec requirements say what the
+system should do. Nx projects say where the implementation lives. Repository rules say how the work gets
+done. Automated checks provide the evidence that it's ready for review. The agent harness gives agents
+reusable commands and skills, and its MCP access is read-only or limited to documented workspace operations.
+Publishing, deploying, and touching credentials stay with a human.
 
-The result is a small laboratory for loop engineering: make the intended behavior explicit, perform the
-smallest useful change, run fast local feedback, enforce repository-wide quality gates, and feed the evidence
-back into the next decision. The repository favors composable libraries, deterministic examples, clear
-boundaries, and repeatable automation so that the lessons scale to larger agentic monorepos without hiding
-the engineering mechanics. It is a work in progress: the roadmap and OpenSpec change history make the
-improvement path visible, while accepted specs turn each planned capability into an accountable step toward
-evolving the repository itself as a product.
+The workflow mirrors a real engineering lifecycle: discovery, proposal, design, planning, implementation,
+verification, review, archival. The same things that make that lifecycle trustworthy on a human team — clear
+dependencies, owned boundaries, review that doesn't care who wrote the code, explicit acceptance criteria,
+recorded evidence — apply here too. Agents can move faster through the loop. They don't get to skip the parts
+that make the loop trustworthy.
+
+The result is a small lab for loop engineering: state the intended behavior, make the smallest change that
+satisfies it, get fast local feedback, enforce the same quality gates on every change, and feed what you
+learn back into the next decision. The repo stays small and legible on purpose, so the lessons scale to
+bigger agentic monorepos without hiding how the mechanics work. It's a work in progress, and deliberately
+so: today's `hello`/`greeter` pair is a starting workspace, not the finished shape. Expect more examples and
+deeper integrations to land here over time, each arriving through the same spec-driven loop this repo
+teaches. The roadmap and OpenSpec change history show where it's headed, and each accepted spec turns a
+planned capability into a step you can hold accountable.
 
 ## Design Intent
 
 The repository helps a team move from idea to a reviewable implementation without losing the reasoning:
 
-- **Contracts first:** behavior is described in accepted OpenSpec requirements and scenarios.
-- **Bounded architecture:** Nx projects provide clear ownership and dependency boundaries.
-- **Evidence over ceremony:** every change has executable tasks and recorded verification.
-- **Safe automation:** agents can inspect and run bounded repository tasks, but do not receive credentials
-  or implicit authority to publish, deploy, or act externally.
-- **Portable foundations:** examples avoid provider lock-in, network calls, and secrets.
+- **Contracts first.** Behavior lives in accepted OpenSpec requirements and scenarios, not in someone's
+  head.
+- **Bounded architecture.** Nx projects draw clear ownership and dependency lines.
+- **Evidence over ceremony.** Every change ships with executable tasks and recorded verification.
+- **Safe automation.** Agents can inspect and run bounded repository tasks. They don't get credentials or
+  standing authority to publish, deploy, or act externally.
+- **Portable foundations.** Examples avoid provider lock-in, network calls, and secrets.
 
 ## Quick Start
 

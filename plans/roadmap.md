@@ -6,13 +6,13 @@ contract.
 
 ## Milestone Tracking
 
-| Phase                                   | Governing changes                             | Status   |
-| --------------------------------------- | --------------------------------------------- | -------- |
-| Repository evolution conventions        | `add-repository-evolution-markers`            | Complete |
-| Executable PR and dependency governance | `add-executable-pr-and-dependency-governance` | Complete |
-| Foundation                              |                                               | Complete |
-| Agent harness and MCP governance        | `improve-agentic-boiler-governance`           | Complete |
-| Template and example expansion          | `add-second-example-package`                  | Complete |
+| Phase                                   | Governing changes                                             | Status   |
+| --------------------------------------- | ------------------------------------------------------------- | -------- |
+| Repository evolution conventions        | `add-repository-evolution-markers`                            | Complete |
+| Executable PR and dependency governance | `add-executable-pr-and-dependency-governance`                 | Complete |
+| Foundation                              |                                                               | Complete |
+| Agent harness and MCP governance        | `improve-agentic-boiler-governance`                           | Complete |
+| Template and example expansion          | `add-second-example-package`, `add-template-onboarding-guide` | Complete |
 
 The repository evolution milestone comes first because it establishes the conventions used to plan and
 sequence every later capability. The executable PR and dependency governance milestone extends those
@@ -22,10 +22,12 @@ its change is archived and its accepted requirements are present.
 
 The template and example expansion milestone turns the repository into a usable template for spec and
 harness engineering, not just a description of one. `add-second-example-package` comes first because it
-demonstrates Nx project boundaries and inter-package dependency sequencing in working code; a future
-onboarding guide (fork/rename/first-change) and a GitHub template-repository configuration would reference
-this second package as their worked example, so they are sequenced after it and are not yet proposed as
-OpenSpec changes.
+demonstrates Nx project boundaries and inter-package dependency sequencing in working code; it is archived.
+`add-template-onboarding-guide` comes next because it references `packages/greeter` as part of its
+fork/rename/replace-markers checklist, so its predecessor had to exist and be archived first. GitHub's
+"Template repository" setting was checked and was already enabled on the hosted remote, and `.github/`
+already carries PR/issue templates, CODEOWNERS, dependabot, and CI, so no further governing change is
+needed to finish this milestone.
 
 Roadmap changes are ordered left to right within a milestone and top to bottom across milestones. A later
 change may be selected only after every earlier governing change is archived and verified. Use `Pending` for
