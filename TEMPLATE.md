@@ -9,13 +9,13 @@ ongoing change workflow you'll use afterward.
 This project's name and repository are hard-coded in a few places. Update each of these before anything
 else, so later commands, `npm install`, and generated links refer to your project instead of this one:
 
-| File           | Field(s)                                           | Current value                                        |
-| -------------- | -------------------------------------------------- | ---------------------------------------------------- |
-| `package.json` | `name`                                             | `agentic-boiler`                                     |
-| `package.json` | `repository.url`                                   | `git+https://github.com/salzayat/agentic-boiler.git` |
-| `package.json` | `bugs.url`                                         | `https://github.com/salzayat/agentic-boiler/issues`  |
-| `package.json` | `homepage`                                         | `https://github.com/salzayat/agentic-boiler#readme`  |
-| `README.md`    | Title (`# Agentic Boiler`) and opening description | —                                                    |
+| File           | Field(s)                                      | Current value                                   |
+| -------------- | --------------------------------------------- | ----------------------------------------------- |
+| `package.json` | `name`                                        | `spec-loop`                                     |
+| `package.json` | `repository.url`                              | `git+https://github.com/salzayat/spec-loop.git` |
+| `package.json` | `bugs.url`                                    | `https://github.com/salzayat/spec-loop/issues`  |
+| `package.json` | `homepage`                                    | `https://github.com/salzayat/spec-loop#readme`  |
+| `README.md`    | Title (`# Spec Loop`) and opening description | —                                               |
 
 ## 2. Replace the teaching examples
 

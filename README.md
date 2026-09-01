@@ -1,6 +1,6 @@
-# Agentic Boiler
+# Spec Loop
 
-Agentic Boiler is a public, teaching-oriented Nx monorepo. It shows how to build agentic software with
+Spec Loop is a public, teaching-oriented Nx monorepo. It shows how to build agentic software with
 the same discipline a well-run engineering team already uses: specs before code, clear ownership boundaries,
 and evidence instead of trust. `hello` is a small deterministic library that makes the structure and feedback
 loop visible — it isn't a stand-in for a real product. `greeter` depends on `hello`, and exists to show a
