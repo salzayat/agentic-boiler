@@ -1,3 +1,4 @@
+// TEMPLATE:REPLACE this composition example with the second domain capability after cloning or forking.
 import { greet } from '@agentic-boiler/hello';
 
 export type Announcement = {

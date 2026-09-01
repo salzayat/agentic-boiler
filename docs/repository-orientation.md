@@ -62,12 +62,18 @@ Use `npm exec nx show projects` and `npm exec nx show project <project> --json` 
 Use Nx targets such as `npm exec nx run hello:test`; do not invoke project tooling directly when an Nx target
 exists.
 
-Use `packages/greeter` as the worked example of a dependent package: it imports `hello`'s typed export via
-`@agentic-boiler/hello` (an npm workspace dependency plus an Nx `implicitDependencies` entry), resolved at
-typecheck and test time through the `@agentic-boiler/source` package export condition, with no build step
-required. Follow the same shape — `package.json` with a matching `exports` map, `project.json` with
-`implicitDependencies`, and a `node --conditions=@agentic-boiler/source` test target — when adding a new
-package that depends on another.
+Read [`TEMPLATE.md`](../TEMPLATE.md) first if you are setting this repository up as the start of a new
+project rather than contributing to this one; it is a one-time rename/replace/verify checklist that precedes
+the agent loop below.
+
+`packages/greeter` is the worked example of a dependent package. It imports `hello`'s typed export via
+`@agentic-boiler/hello`, declared as both an npm workspace dependency and an Nx `implicitDependencies`
+entry. That import resolves at typecheck and test time through the `@agentic-boiler/source` package export
+condition, so no build step is required.
+
+When adding a new package that depends on another, follow the same shape: a `package.json` with a matching
+`exports` map, a `project.json` with `implicitDependencies`, and a `node --conditions=@agentic-boiler/source`
+test target.
 
 Use [`docs/dependency-patterns.md`](dependency-patterns.md) when adding roadmap entries, declaring OpenSpec
 predecessors, or replacing a template example after a clone or fork.
