@@ -2,7 +2,9 @@
 
 ## Purpose
 
-TBD - created by archiving change add-executable-pr-and-dependency-governance. Update Purpose after archive.
+Govern the executable parts of the contribution workflow: PR automation must pass body content literally
+and dependency updates must be checked for readiness before merge, so contributors and agents get the same
+guardrails whether they run `scripts/pr.sh` by hand or through an agent command.
 
 ## Requirements
 

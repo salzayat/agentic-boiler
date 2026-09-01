@@ -10,7 +10,8 @@ this page is guidance, not a replacement for those contracts.
 .
 ├── apps/                 Future thin, deployable applications
 ├── packages/             Reusable libraries and domain logic
-│   └── hello/            Current deterministic typed example
+│   ├── hello/            Current deterministic typed example
+│   └── greeter/          Second example; depends on hello, shows inter-package composition
 ├── openspec/
 │   ├── specs/            Accepted behavioral requirements and scenarios
 │   └── changes/          Active proposals; archive completed changes
@@ -60,6 +61,13 @@ put domain behavior in scripts, reports, agent prompts, or presentation code.
 Use `npm exec nx show projects` and `npm exec nx show project <project> --json` to inspect the workspace.
 Use Nx targets such as `npm exec nx run hello:test`; do not invoke project tooling directly when an Nx target
 exists.
+
+Use `packages/greeter` as the worked example of a dependent package: it imports `hello`'s typed export via
+`@agentic-boiler/hello` (an npm workspace dependency plus an Nx `implicitDependencies` entry), resolved at
+typecheck and test time through the `@agentic-boiler/source` package export condition, with no build step
+required. Follow the same shape — `package.json` with a matching `exports` map, `project.json` with
+`implicitDependencies`, and a `node --conditions=@agentic-boiler/source` test target — when adding a new
+package that depends on another.
 
 Use [`docs/dependency-patterns.md`](dependency-patterns.md) when adding roadmap entries, declaring OpenSpec
 predecessors, or replacing a template example after a clone or fork.
