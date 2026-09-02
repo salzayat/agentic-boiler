@@ -1,37 +1,41 @@
-# Agentic Boiler
+# Spec Loop
 
-Agentic Boiler is a public, teaching-oriented Nx monorepo. It shows how to build agentic software with
-the same discipline a well-run engineering team already uses: specs before code, clear ownership boundaries,
-and evidence instead of trust. `hello` is a small deterministic library that makes the structure and feedback
-loop visible — it isn't a stand-in for a real product. `greeter` depends on `hello`, and exists to show a
-second package working: dependency resolution and sequencing in running code, not just in a diagram.
+Spec Loop is a small, public Nx monorepo built to teach one thing: how to run agentic software work with
+the same discipline a well-run engineering team already uses. Specs come before code. Ownership boundaries
+stay clear. Evidence beats trust. `hello` is a tiny deterministic library that makes the structure and
+feedback loop visible; it isn't pretending to be a real product. `greeter` depends on `hello` and exists for
+one reason: to show a second package actually working, with dependency resolution and sequencing happening
+in running code instead of a diagram.
 
-Forking this to start your own project? Read [`TEMPLATE.md`](TEMPLATE.md) first.
+Forking this to start your own project? Read [`TEMPLATE.md`](TEMPLATE.md) first. For the thinking behind
+it, read [Building Agentic Software Without Losing Discipline](https://binarylogic.live/blog/building-agentic-software-without-losing-discipline).
 
-An agent here is a contributor, not an operator with free rein. Accepted OpenSpec requirements say what the
-system should do. Nx projects say where the implementation lives. Repository rules say how the work gets
-done. Automated checks provide the evidence that it's ready for review. The agent harness gives agents
-reusable commands and skills, and its MCP access is read-only or limited to documented workspace operations.
-Publishing, deploying, and touching credentials stay with a human.
+An agent working in this repo is a contributor, not an operator with free rein. Accepted OpenSpec
+requirements define what the system should do. Nx projects define where the implementation lives.
+Repository rules define how the work gets done. Automated checks supply the evidence that it's ready for
+review. The agent harness gives agents reusable commands and skills, and its MCP access stays read-only or
+limited to documented workspace operations. Publishing, deploying, and touching credentials stay with a
+human, full stop.
 
-The workflow mirrors a real engineering lifecycle: discovery, proposal, design, planning, implementation,
-verification, review, archival. The same things that make that lifecycle trustworthy on a human team — clear
-dependencies, owned boundaries, review that doesn't care who wrote the code, explicit acceptance criteria,
-recorded evidence — apply here too. Agents can move faster through the loop. They don't get to skip the parts
-that make the loop trustworthy.
+The workflow follows a real engineering lifecycle: discovery, proposal, design, planning, implementation,
+verification, review, archival. The things that make that lifecycle trustworthy on a human team apply here
+too: clear dependencies, owned boundaries, review that doesn't care who wrote the code, explicit acceptance
+criteria, recorded evidence. Agents can move faster through the loop. They don't get to skip the parts that
+make it trustworthy.
 
-The result is a small lab for loop engineering: state the intended behavior, make the smallest change that
-satisfies it, get fast local feedback, enforce the same quality gates on every change, and feed what you
-learn back into the next decision. The repo stays small and legible on purpose, so the lessons scale to
-bigger agentic monorepos without hiding how the mechanics work. It's a work in progress, and deliberately
-so: today's `hello`/`greeter` pair is a starting workspace, not the finished shape. Expect more examples and
-deeper integrations to land here over time, each arriving through the same spec-driven loop this repo
-teaches. The roadmap and OpenSpec change history show where it's headed, and each accepted spec turns a
+What you end up with is a small lab for loop engineering. State the intended behavior. Make the smallest
+change that satisfies it. Get fast local feedback. Enforce the same quality gates on every change. Feed what
+you learn back into the next decision. The repo stays small and legible on purpose, so the lessons scale to
+bigger agentic monorepos without hiding how the mechanics actually work. This is a work in progress by
+design: today's `hello`/`greeter` pair is a starting workspace, not the finished shape. More examples and
+deeper integrations will land here over time, each arriving through the same spec-driven loop the repo
+teaches. Check the roadmap and OpenSpec change history to see where it's headed. Every accepted spec turns a
 planned capability into a step you can hold accountable.
 
 ## Design Intent
 
-The repository helps a team move from idea to a reviewable implementation without losing the reasoning:
+The repository helps a team move from idea to reviewable implementation without losing the reasoning along
+the way.
 
 - **Contracts first.** Behavior lives in accepted OpenSpec requirements and scenarios, not in someone's
   head.
@@ -54,8 +58,8 @@ Install the local hooks once per clone:
 ./scripts/install-git-hooks.sh
 ```
 
-The `check` command runs strict OpenSpec validation, agent-harness and roadmap checks, documentation and
-secret checks, then Nx formatting, linting, type checking, tests, and builds.
+`npm run check` runs strict OpenSpec validation, agent-harness and roadmap checks, documentation and secret
+checks, then Nx formatting, linting, type checking, tests, and builds.
 
 ## Key Commands
 
@@ -71,17 +75,17 @@ The repository keeps its common engineering actions executable and visible:
 | `npm exec openspec -- validate --all --strict` | Strictly validates every accepted and active OpenSpec artifact.                                                            |
 | `./scripts/pr.sh`                              | Runs guarded checks, creates a commit, pushes a branch, and opens a pull request.                                          |
 
-The agent harness adds workflow commands for the spec and review loop. Use `/next` to select and implement
-the next dependency-ready roadmap change, `/verify-change <name>` to verify an active change without mutating
-it, `/archive-change <name>` to archive a fully verified change, and `/pr` to create a guarded commit and pull
-request through `scripts/pr.sh`. These commands are authorization-aware: they do not grant an agent permission
-to publish, deploy, or perform external actions without an explicit request.
+The agent harness adds workflow commands for the spec and review loop. `/next` picks up and implements the
+next dependency-ready roadmap change. `/verify-change <name>` checks an active change without mutating it.
+`/archive-change <name>` archives a fully verified change. `/pr` creates a guarded commit and pull request
+through `scripts/pr.sh`. None of these commands grant an agent permission to publish, deploy, or take
+external action without an explicit request.
 
 ## Skill Library
 
-The reusable agent skill library lives in the canonical `.agent/skills/` directory. Skills provide focused
-working methods rather than hidden authority; discovery adapter paths such as `.opencode/skills/` and
-`.claude/skills/` point back to this shared library.
+The reusable agent skill library lives in the canonical `.agent/skills/` directory. Skills give agents
+focused working methods, not hidden authority. Discovery adapter paths like `.opencode/skills/` and
+`.claude/skills/` just point back to this shared library.
 
 | Skill                            | Focus                                                                 |
 | -------------------------------- | --------------------------------------------------------------------- |
@@ -104,8 +108,8 @@ working methods rather than hidden authority; discovery adapter paths such as `.
 | `nx-plugins`                     | Discover and add Nx technology plugins.                               |
 | `nx-import`                      | Bring existing repositories into an Nx workspace.                     |
 
-Keep new reusable skills in `.agent/skills/`, document their boundaries, and expose them through the existing
-discovery symlinks rather than copying divergent versions into adapter directories.
+Keep new reusable skills in `.agent/skills/`, document their boundaries, and expose them through the
+existing discovery symlinks instead of copying divergent versions into adapter directories.
 
 ## Nx Workflow
 
@@ -125,22 +129,22 @@ Project targets are intentionally explicit:
 | `build`     | Compile and package project output            |
 
 Use Nx targets rather than invoking project tooling directly. As the workspace grows, applications should
-compose reusable libraries rather than placing domain logic in presentation projects.
+compose reusable libraries instead of stuffing domain logic into presentation projects.
 
 ## Spec-Driven Workflow
 
-OpenSpec is the behavioral source of truth. The normal lifecycle is:
+OpenSpec is the behavioral source of truth here. The normal lifecycle:
 
 1. Read the relevant accepted specs and current implementation.
 2. Create and strictly validate `openspec/changes/<name>/`.
 3. Record architecture in `design.md` and ordered work in `tasks.md`.
 4. Implement only the contract-covered behavior.
 5. Run `npm run check` and record exact evidence.
-6. Verify and archive the change after every task is complete.
+6. Verify and archive the change once every task is complete.
 
-The four change artifacts have distinct jobs: `proposal.md` explains why, `design.md` explains how,
-`tasks.md` explains execution, and `specs/<capability>/spec.md` defines behavior. Plans teach sequencing;
-they do not replace requirements.
+Each change artifact has its own job. `proposal.md` explains why. `design.md` explains how. `tasks.md`
+explains execution. `specs/<capability>/spec.md` defines behavior. Plans teach sequencing; they don't
+replace requirements.
 
 See [`plans/spec-driven-workflow.md`](plans/spec-driven-workflow.md) and
 [`docs/governance.md`](docs/governance.md) for the full workflow.
@@ -167,6 +171,6 @@ Planning and dependency conventions are documented in
 
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md), the relevant accepted spec, and [`CONTRIBUTING.md`](CONTRIBUTING.md)
-before making a change. Pull requests should explain the contract, verification, skipped checks, and any
-generated output. The repository is licensed under the [MIT License](LICENSE).
+Read [`AGENTS.md`](AGENTS.md), the relevant accepted spec, and [`CONTRIBUTING.md`](CONTRIBUTING.md) before
+making a change. Pull requests should explain the contract, the verification you ran, any checks you
+skipped, and any generated output. The repository is licensed under the [MIT License](LICENSE).
